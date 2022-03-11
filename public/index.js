@@ -1,6 +1,11 @@
 const root = document.getElementById('comments');
+
+
 class CommentList {
     constructor(root) {
+
+
+
         this.root = root;
         this.count = 0;
         console.log(root);
@@ -9,6 +14,13 @@ class CommentList {
         this.commentStrList = {};
         this.input = this.form.querySelector('input');
         this.ul = root.querySelector('ul');
+        this.form.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            console.log("submitted, count is ",this.count)
+            document.getElementById("numComments").innerHTML = (this.count+1).toString();
+
+        });
+
         this.form.addEventListener('submit', (e) => {
             e.preventDefault();
             const comment = this.input.value;
@@ -22,7 +34,6 @@ class CommentList {
             }
             this.removeComment(id);
         });
-        this.updateCommentNum();
     }
 
     addComment(comment) {
@@ -43,8 +54,8 @@ class CommentList {
         //         </div>
         //     </div>
         // </div>
-this.count += 1;
-const id = String(Date.now());
+        this.count += 1;
+        const id = String(Date.now());
         const authorName = "Anonymous";
         const commentTime = new Date().toLocaleString();
 
@@ -56,6 +67,13 @@ const id = String(Date.now());
         const user = document.createElement('a');
         user.className = 'author';
         user.innerText = authorName;
+
+        user.addEventListener('click', () => {
+            $('.ui.modal')
+                .modal('show')
+            ;
+        });
+
         console.log(user)
         const metadata = document.createElement('div');
         metadata.className =  'metadata';
@@ -84,12 +102,13 @@ const id = String(Date.now());
         metadata.appendChild(time);
 
         this.commentList[id] = contain;
-        this.commentStrList[id] = {authorName,comment,commentTime};
-
+        const replies = {};
+        this.commentStrList[id] = {authorName,comment,commentTime,replies};
+        console.log(this.commentList);
         $.ajax({
             method: "post",
             url: "/comments",
-            data: JSON.stringify({ comments: this.commentStrList }),
+            data: JSON.stringify({ comments: this.commentStrList}),
             contentType: "application/json",
             success: function (data) {
                 console.log(data);
@@ -100,12 +119,15 @@ const id = String(Date.now());
 
     removeComment(id) {
         this.count -=1;
-        this.updateCommentNum();
         const block = this.commentList[id];
         this.ul.removeChild(block);
 
         delete this.commentList[id];
         delete this.commentStrList[id];
+    }
+
+    render(){
+
     }
 
 }

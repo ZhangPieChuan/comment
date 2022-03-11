@@ -63,16 +63,33 @@
 <div id="comments" class="ui raised very padded text container segment">
     <h3 class="ui dividing header">Comments</h3>
     <form>
-        <div class="ui large fluid input">
+        <div class="ui form">
             <input id="comments-input" type="text" placeholder="Enter your comments here">
         </div>
-        <span id = "numComments">0</span><p>comments</p>
+        <p><span id = "numComments">0</span> comments</p>
         <div id = "comment-sec" class="ui comments">
             <ul>
 
             </ul>
         </div>
     </form>
+</div>
+<div class="ui modal" id = "myModal">
+    <i class="close icon"></i>
+    <div class="header">
+        Profile
+    </div>
+    <div class="image content">
+        <div class="description">
+            <div class="ui header">User Description</div>
+            <p>Here displays user info</p>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui positive right labeled icon button">
+            OK
+        </div>
+    </div>
 </div>
 
 <script src="index.js"></script>
